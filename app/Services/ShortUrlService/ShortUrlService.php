@@ -5,6 +5,7 @@ namespace App\Services\ShortUrlService;
 use App\Constants\Shortner;
 use App\Models\ShortUrl;
 use App\Services\ShortUrlService\DTO\LinkStats;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -16,11 +17,11 @@ class ShortUrlService
 
         return ShortUrl::create([
             'original_url' => $url,
-            'short_code' => $code
+            'short_code' => $code,
+            'user_id' => Auth::user()?->id
         ]);
     }
 
-    // TODO: Handle clicks implementaion using transactions
     public function resolve(string $code): ?ShortUrl
     {
         $shorUrl = ShortUrl::findByCode($code);

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ShortUrl extends Model
@@ -13,6 +14,7 @@ class ShortUrl extends Model
     ];
 
     protected $fillable = [
+        'user_id',
         'original_url',
         'short_code',
         'expires_at'
@@ -26,5 +28,10 @@ class ShortUrl extends Model
     public static function findByCode(string $code): ?self
     {
         return self::withCount('clicks')->where('short_code', '=', $code)->first();
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }
