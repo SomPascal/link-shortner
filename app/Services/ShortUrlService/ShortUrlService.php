@@ -5,6 +5,7 @@ namespace App\Services\ShortUrlService;
 use App\Constants\Shortner;
 use App\Models\ShortUrl;
 use App\Services\ShortUrlService\DTO\LinkStats;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class ShortUrlService
@@ -28,11 +29,17 @@ class ShortUrlService
             return null;
         }
 
-        $shorUrl->increment('click_count');
-
-        $shorUrl->clicks()->create([
-            'clicked_at' => now()
-        ]);
+        try {
+            DB::transaction(function () use ($shorUrl) {
+                $shorUrl->increment('click_count');
+        
+                $shorUrl->clicks()->create([
+                    'clicked_at' => now()
+                ]);
+            });
+        } catch (\Throwable $th) {
+            report($th);
+        }
 
         return $shorUrl;
     }

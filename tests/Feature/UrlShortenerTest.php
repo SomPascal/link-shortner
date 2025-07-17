@@ -2,8 +2,6 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class UrlShortenerTest extends TestCase
@@ -12,7 +10,7 @@ class UrlShortenerTest extends TestCase
     {
         define('TEST_LINK', 'https://glotelho.cm');
 
-        $response = $this->postJson('/api/shorten', [
+        $response = $this->postJson(route('api.short_url.make'), [
             'url' => TEST_LINK
         ]);
 
@@ -25,7 +23,7 @@ class UrlShortenerTest extends TestCase
 
         $this->get("/$shortCode")->assertRedirect(TEST_LINK);
 
-        $stats = $this->getJson("/api/stats/$shortCode");
+        $stats = $this->getJson(route('api.short_url.stats', ['short_code' => $shortCode]));
 
         $stats->assertStatus(200)->assertJson([
             'click_count' => 1

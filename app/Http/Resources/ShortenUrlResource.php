@@ -15,7 +15,7 @@ class ShortenUrlResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'short_url' => route('short_url.show', [
+            'short_url' => route('url.redirect', [
                 'short_code' => $this->resource->short_code
             ]),
 
