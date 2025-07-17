@@ -30,7 +30,7 @@ class LoginController extends Controller
             return redirect()->route('account');
         }
         return redirect()->back()->withErrors([
-            'email' => 'Your credentials don\'t match with your records'
+            'email' => 'Your credentials don\'t match with our records'
         ])->withInput();
     }
 }
