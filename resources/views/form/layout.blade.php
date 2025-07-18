@@ -10,7 +10,10 @@
         'resources/css/app.css',
         'resources/js/app.js'
     ])
-    @yield('title')
+    
+    <title>
+        Link Shortner - @yield('title')
+    </title>
 </head>
 <body class="bg-blue-500 flex align-center justify-center">
     <section class="container mt-20 flex align-center justify-center">

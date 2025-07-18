@@ -24,13 +24,13 @@ Route::middleware('auth')->group(function () {
     Route::post('logout', [LogoutController::class, 'logout'])->name('logout');
 
     Route::get('account', [AccountController::class, 'show'])->name('account');
-    Route::get('links', );
-});
 
-Route::name('url.')->group(function () {
-    Route::get('url', [UrlController::class, 'list'])->name('list');
-
-    Route::get('{short_code}', [RedirectController::class, 'redirect'])
-    ->where('short_code', Regex::SHORTEN_URL_CODE)
-    ->name('redirect');
+    Route::name('url.')->group(function () {
+        Route::get('url', [UrlController::class, 'list'])->name('list');
+    
+        Route::get('{short_code}', [RedirectController::class, 'redirect'])
+        ->where('short_code', Regex::SHORTEN_URL_CODE)
+        ->middleware('throttle:redirect')
+        ->name('redirect');
+    });
 });

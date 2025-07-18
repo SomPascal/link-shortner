@@ -11,14 +11,14 @@ use Illuminate\Support\Str;
 
 class ShortUrlService
 {
-    public function create(string $url): ShortUrl
+    public function create(string $url, ?int $user_id = null): ShortUrl
     {
         $code = Str::random(Shortner::LINK_CODE_LENGTH);
 
         return ShortUrl::create([
             'original_url' => $url,
             'short_code' => $code,
-            'user_id' => Auth::user()?->id
+            'user_id' => $user_id ?? Auth::user()?->id
         ]);
     }
 

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Constants\Test;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -50,5 +52,15 @@ class User extends Authenticatable
     public function shortUrls(): HasMany
     {
         return $this->hasMany(ShortUrl::class);
+    }
+
+    public static function findByEmail(string $email): ?self
+    {
+        return self::where('email', $email)->first();
+    }
+
+    public static function fakeOne(): ?self
+    {
+        return self::where('email', Test::FAKE_USER_EMAIl)->first();
     }
 }

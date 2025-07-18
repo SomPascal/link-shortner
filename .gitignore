@@ -22,3 +22,5 @@ yarn-error.log
 /.vscode
 /.zed
 /.private
+link_shortner
+*.sqlite

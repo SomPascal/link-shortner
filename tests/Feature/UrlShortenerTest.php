@@ -2,16 +2,24 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class UrlShortenerTest extends TestCase
 {
+    use RefreshDatabase;
+
+    protected const TEST_LINK = 'ttps://glotelho.cm';
+
     public function test_shorten_and_redirect(): void
     {
-        define('TEST_LINK', 'https://glotelho.cm');
+        $fake_user = User::fakeOne();
+        Sanctum::actingAs($fake_user);
 
-        $response = $this->postJson(route('api.short_url.make'), [
-            'url' => TEST_LINK
+        $response = $this->withCredentials()->postJson(route('api.short_url.make'), [
+            'url' => self::TEST_LINK
         ]);
 
         $response->assertStatus(200)->assertJsonStructure([
@@ -21,7 +29,7 @@ class UrlShortenerTest extends TestCase
 
         $shortCode = $response->json('short_code');
 
-        $this->get("/$shortCode")->assertRedirect(TEST_LINK);
+        $this->get("/$shortCode")->assertRedirect(self::TEST_LINK);
 
         $stats = $this->getJson(route('api.short_url.stats', ['short_code' => $shortCode]));
 

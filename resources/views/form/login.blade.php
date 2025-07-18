@@ -1,6 +1,6 @@
 @extends('form.layout')
 
-@section('title')
+@section('title', 'Login')
 
 @section('content')
     <form 
@@ -8,7 +8,6 @@
       method="post"
       class="bg-zinc-200 p-3 rounded w-[40%] min-w-[300px] flex flex-col gap-3 shadow-md"
     >
-      @dump($errors)
       @csrf
 
       <x-form.input 

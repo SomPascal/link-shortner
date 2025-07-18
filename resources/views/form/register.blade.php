@@ -1,5 +1,7 @@
 @extends('form.layout')
 
+@section('title', 'Register')
+
 @section('content')
     <form 
       action="{{ route('doRegister') }}"

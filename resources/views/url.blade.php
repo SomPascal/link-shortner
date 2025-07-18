@@ -6,7 +6,7 @@
     <div class="bg-zinc-200 w-[50%] min-w-[300px] p-2 rounded shadow-md flex flex-col">
         <div class="flex items-center justify-between">
             <h2 class="text-xl font-bold">
-                Links
+                Links - ({{ $urls->total() }})
             </h2>
 
             <div class="flex gap-2">
