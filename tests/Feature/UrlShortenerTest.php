@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Constants\Test;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -11,14 +13,19 @@ class UrlShortenerTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected const TEST_LINK = 'ttps://glotelho.cm';
+    protected const TEST_LINK = 'https://glotelho.cm';
 
     public function test_shorten_and_redirect(): void
     {
-        $fake_user = User::fakeOne();
+        $fake_user = User::factory()->create([
+            'name' => 'fake',
+            'email' => Test::FAKE_USER_EMAIl,
+            'password' => Hash::make('password')
+        ]);
+
         Sanctum::actingAs($fake_user);
 
-        $response = $this->withCredentials()->postJson(route('api.short_url.make'), [
+        $response = $this->withoutMiddleware()->postJson(route('api.short_url.make'), [
             'url' => self::TEST_LINK
         ]);
 

@@ -3,18 +3,25 @@
 namespace Tests\Feature;
 
 use App\Models\ShortUrl;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class TooManyRedirectionsTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * A basic feature test example.
      */
     public function test_too_many_redirections_response(): void
     {
-        $shortUrl = ShortUrl::first();
+        $fakeUrl = User::factory()->create();
+
+        $shortUrl = ShortUrl::factory()->create([
+            'user_id' => $fakeUrl->id
+        ]);
 
         $response = null;
 

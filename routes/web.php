@@ -28,9 +28,10 @@ Route::middleware('auth')->group(function () {
     Route::name('url.')->group(function () {
         Route::get('url', [UrlController::class, 'list'])->name('list');
     
-        Route::get('{short_code}', [RedirectController::class, 'redirect'])
-        ->where('short_code', Regex::SHORTEN_URL_CODE)
-        ->middleware('throttle:redirect')
-        ->name('redirect');
     });
 });
+
+Route::get('{short_code}', [RedirectController::class, 'redirect'])
+->where('short_code', Regex::SHORTEN_URL_CODE)
+->middleware('throttle:redirect')
+->name('url.redirect');
